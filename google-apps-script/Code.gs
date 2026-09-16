@@ -112,7 +112,7 @@ function setupSheet() {
   );
   sheet.setConditionalFormatRules(rules);
 
-  SpreadsheetApp.getUi().alert("세팅 완료! '상담신청' 시트를 확인하세요.");
+  Logger.log("세팅 완료! '상담신청' 시트를 확인하세요.");
 }
 
 // 웹앱 배포 후, 홈페이지 폼에서 이 주소로 POST 요청을 보내면 아래 함수가 실행됨
