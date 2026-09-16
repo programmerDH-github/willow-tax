@@ -86,7 +86,11 @@ h2 {
 .btn-naver {
   background: #03c75a;
   color: var(--white);
+  padding: 16px 32px;
+  font-size: 16px;
+  box-shadow: 0 8px 20px rgba(3, 199, 90, 0.35);
 }
+.btn-naver i { font-size: 17px; }
 .btn-naver:hover { background: #02a94c; }
 
 /* ===== HEADER ===== */
