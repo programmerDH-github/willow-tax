@@ -25,6 +25,7 @@ const HEADERS = [
   "문의내용",
   "상담상태",
   "입금여부",
+  "수수료",
 ];
 
 const STATUS_OPTIONS = ["접수", "연락완료", "상담완료"];
@@ -53,7 +54,11 @@ function setupSheet() {
 
   const statusCol = HEADERS.indexOf("상담상태") + 1;
   const paymentCol = HEADERS.indexOf("입금여부") + 1;
+  const feeCol = HEADERS.indexOf("수수료") + 1;
   const maxRows = 500;
+
+  sheet.setColumnWidth(feeCol, 110);
+  sheet.getRange(2, feeCol, maxRows, 1).setNumberFormat("#,##0\"원\"");
 
   // 드롭다운 (데이터 유효성 검사)
   const statusRule = SpreadsheetApp.newDataValidation()
@@ -145,7 +150,7 @@ function setupDashboard() {
   ss.moveActiveSheet(1);
 
   // 제목
-  sheet.getRange("A1:F1").merge();
+  sheet.getRange("A1:G1").merge();
   sheet.getRange("A1")
     .setValue("🔔 미완료 상담 현황")
     .setFontSize(20)
@@ -156,9 +161,9 @@ function setupDashboard() {
   sheet.setRowHeight(1, 44);
 
   // 실시간 카운트 (상담 미완료 또는 입금 미완료 기준)
-  sheet.getRange("A2:F2").merge();
+  sheet.getRange("A2:G2").merge();
   sheet.getRange("A2").setFormula(
-    `="현재 처리 대기 중인 상담: " & IFERROR(COUNTA(QUERY(${SHEET_NAME}!A2:J,"select A where I <> '상담완료' or J = '미입금'",0)),0) & "건"`
+    `="현재 처리 대기 중인 상담: " & IFERROR(COUNTA(QUERY(${SHEET_NAME}!A2:K,"select A where I <> '상담완료' or J = '미입금'",0)),0) & "건"`
   );
   sheet.getRange("A2")
     .setFontSize(13)
@@ -167,18 +172,43 @@ function setupDashboard() {
     .setHorizontalAlignment("center");
   sheet.setRowHeight(2, 30);
 
-  // 미완료 상담 목록 (상담 미완료 또는 입금 미완료인 건만, 상담신청 시트에서 실시간 필터링)
-  sheet.getRange("A4").setFormula(
-    `=QUERY(${SHEET_NAME}!A2:J,"select A,B,C,D,I,J where I <> '상담완료' or J = '미입금' order by A desc label A '접수일시', B '이름', C '연락처', D '카테고리', I '상담상태', J '입금여부'",0)`
+  // 수수료 합계 (왼쪽: 받은 금액 / 오른쪽: 아직 받아야 할 금액)
+  sheet.getRange("A3:C3").merge();
+  sheet.getRange("A3").setFormula(
+    `="💰 받은 금액: " & TEXT(SUMIF(${SHEET_NAME}!J2:J,"입금완료",${SHEET_NAME}!K2:K),"#,##0") & "원"`
   );
-  sheet.getRange("A4:F4").setFontWeight("bold").setBackground("#e2efde");
-  sheet.setFrozenRows(4);
-  sheet.setColumnWidths(1, 6, 150);
+  sheet.getRange("A3")
+    .setFontSize(16)
+    .setFontWeight("bold")
+    .setBackground("#d6efce")
+    .setFontColor("#2c5e1a")
+    .setHorizontalAlignment("center");
+
+  sheet.getRange("E3:G3").merge();
+  sheet.getRange("E3").setFormula(
+    `="⏳ 받아야 할 금액: " & TEXT(SUMIF(${SHEET_NAME}!J2:J,"미입금",${SHEET_NAME}!K2:K),"#,##0") & "원"`
+  );
+  sheet.getRange("E3")
+    .setFontSize(16)
+    .setFontWeight("bold")
+    .setBackground("#fbd4cf")
+    .setFontColor("#a12b1f")
+    .setHorizontalAlignment("center");
+  sheet.setRowHeight(3, 40);
+
+  // 미완료 상담 목록 (상담 미완료 또는 입금 미완료인 건만, 상담신청 시트에서 실시간 필터링)
+  sheet.getRange("A5").setFormula(
+    `=QUERY(${SHEET_NAME}!A2:K,"select A,B,C,D,I,J,K where I <> '상담완료' or J = '미입금' order by A desc label A '접수일시', B '이름', C '연락처', D '카테고리', I '상담상태', J '입금여부', K '수수료'",0)`
+  );
+  sheet.getRange("A5:G5").setFontWeight("bold").setBackground("#e2efde");
+  sheet.setFrozenRows(5);
+  sheet.setColumnWidths(1, 7, 150);
   sheet.setColumnWidth(3, 130);
+  sheet.getRange("G6:G300").setNumberFormat("#,##0\"원\"");
 
   // 조건부 서식 (상담신청 시트와 동일한 색상 규칙)
-  const statusRange = sheet.getRange("E5:E300");
-  const paymentRange = sheet.getRange("F5:F300");
+  const statusRange = sheet.getRange("E6:E300");
+  const paymentRange = sheet.getRange("F6:F300");
   const rules = [
     SpreadsheetApp.newConditionalFormatRule()
       .whenTextEqualTo("접수")
@@ -232,6 +262,7 @@ function doPost(e) {
     data.message || "",
     "접수",
     "미입금",
+    "",
   ]);
 
   return ContentService
