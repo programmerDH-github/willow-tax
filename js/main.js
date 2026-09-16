@@ -20,11 +20,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
+    // 관공서 공휴일 + 대체공휴일 + 근로자의 날 (국세기본법 제5조 기한 특례 적용 대상)
+    const holidaySet = new Set([
+      "2026-01-01", "2026-02-16", "2026-02-17", "2026-02-18", "2026-03-01",
+      "2026-03-02", "2026-05-01", "2026-05-05", "2026-05-24", "2026-05-25",
+      "2026-06-06", "2026-07-17", "2026-08-15", "2026-08-17", "2026-09-24",
+      "2026-09-25", "2026-09-26", "2026-10-03", "2026-10-05", "2026-10-09",
+      "2026-12-25",
+      "2027-01-01", "2027-02-06", "2027-02-07", "2027-02-08", "2027-02-09",
+      "2027-03-01", "2027-05-01", "2027-05-05", "2027-05-13", "2027-06-06",
+      "2027-06-07", "2027-07-17", "2027-08-15", "2027-08-16", "2027-09-14",
+      "2027-09-15", "2027-09-16", "2027-10-03", "2027-10-04", "2027-10-09",
+      "2027-10-11", "2027-12-25", "2027-12-27",
+    ]);
+
+    const pad = (n) => String(n).padStart(2, "0");
+    const dateKey = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+
+    // 기한이 토·일요일 또는 공휴일이면 다음 영업일로 순연
+    const toBusinessDay = (d) => {
+      const adjusted = new Date(d);
+      while (adjusted.getDay() === 0 || adjusted.getDay() === 6 || holidaySet.has(dateKey(adjusted))) {
+        adjusted.setDate(adjusted.getDate() + 1);
+      }
+      return adjusted;
+    };
+
     const nextYearly = (month, day) => {
       const year = today.getFullYear();
       let d = new Date(year, month - 1, day);
       if (d < today) d = new Date(year + 1, month - 1, day);
-      return d;
+      return toBusinessDay(d);
     };
 
     const nextMonthly = (day) => {
@@ -32,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const month = today.getMonth();
       let d = new Date(year, month, day);
       if (d < today) d = new Date(year, month + 1, day);
-      return d;
+      return toBusinessDay(d);
     };
 
     const items = [
