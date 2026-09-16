@@ -147,10 +147,10 @@ function setupDashboard() {
     .setHorizontalAlignment("center");
   sheet.setRowHeight(1, 44);
 
-  // 실시간 카운트
+  // 실시간 카운트 (상담 미완료 또는 입금 미완료 기준)
   sheet.getRange("A2:F2").merge();
   sheet.getRange("A2").setFormula(
-    `="현재 처리 대기 중인 상담: " & IFERROR(COUNTA(QUERY(${SHEET_NAME}!A2:J,"select A where I <> '상담완료'",0)),0) & "건"`
+    `="현재 처리 대기 중인 상담: " & IFERROR(COUNTA(QUERY(${SHEET_NAME}!A2:J,"select A where I <> '상담완료' or J = '미입금'",0)),0) & "건"`
   );
   sheet.getRange("A2")
     .setFontSize(13)
@@ -159,9 +159,9 @@ function setupDashboard() {
     .setHorizontalAlignment("center");
   sheet.setRowHeight(2, 30);
 
-  // 미완료 상담 목록 (상담신청 시트에서 실시간 필터링)
+  // 미완료 상담 목록 (상담 미완료 또는 입금 미완료인 건만, 상담신청 시트에서 실시간 필터링)
   sheet.getRange("A4").setFormula(
-    `=QUERY(${SHEET_NAME}!A2:J,"select A,B,C,D,I,J where I <> '상담완료' order by A desc label A '접수일시', B '이름', C '연락처', D '카테고리', I '상담상태', J '입금여부'",0)`
+    `=QUERY(${SHEET_NAME}!A2:J,"select A,B,C,D,I,J where I <> '상담완료' or J = '미입금' order by A desc label A '접수일시', B '이름', C '연락처', D '카테고리', I '상담상태', J '입금여부'",0)`
   );
   sheet.getRange("A4:F4").setFontWeight("bold").setBackground("#e2efde");
   sheet.setFrozenRows(4);
