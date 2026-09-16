@@ -239,6 +239,47 @@ h2 {
   margin: 0 0 48px;
 }
 
+.deadline-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 20px;
+}
+
+.deadline-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 26px 24px;
+  box-shadow: var(--shadow);
+}
+
+.deadline-card .dday {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--green-100);
+  color: var(--green-700);
+  font-weight: 800;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
+
+.deadline-card.urgent .dday {
+  background: var(--green-700);
+  color: var(--white);
+}
+
+.deadline-card h3 {
+  font-size: 16.5px;
+  margin: 0 0 6px;
+}
+
+.deadline-card p {
+  color: var(--gray);
+  font-size: 13.5px;
+  margin: 0;
+}
+
 .about-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
