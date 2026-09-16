@@ -68,6 +68,7 @@ h2 {
   font-size: 15px;
   transition: all 0.2s ease;
   border: 1.5px solid transparent;
+  white-space: nowrap;
 }
 
 .btn-primary {
@@ -106,23 +107,29 @@ h2 {
   display: flex;
   align-items: center;
   gap: 10px;
+  min-width: 0;
 }
 
 .logo-icon {
   width: 40px;
   height: auto;
+  flex-shrink: 0;
 }
 
 .logo-text {
   display: flex;
   flex-direction: column;
   line-height: 1.2;
+  min-width: 0;
 }
 
 .logo-name {
   font-weight: 800;
   font-size: 17px;
   color: var(--green-900);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .logo-sub {
@@ -130,6 +137,9 @@ h2 {
   letter-spacing: 0.08em;
   color: var(--green-500);
   font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .gnb ul {
@@ -144,6 +154,10 @@ h2 {
 }
 
 .gnb a:hover { color: var(--green-700); }
+
+.header-actions {
+  flex-shrink: 0;
+}
 
 .header-actions .btn-consult {
   background: var(--green-700);
@@ -162,6 +176,7 @@ h2 {
   background: none;
   border: none;
   cursor: pointer;
+  flex-shrink: 0;
   padding: 6px;
 }
 .hamburger span {
@@ -596,5 +611,7 @@ h2 {
   .services-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
   .hero { padding: 120px 20px 80px; }
+  .header-inner { gap: 12px; padding: 14px 16px; }
+  .logo-sub { display: none; }
   .header-actions .btn-consult { padding: 8px 16px; font-size: 13px; }
 }
