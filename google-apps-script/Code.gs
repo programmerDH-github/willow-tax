@@ -28,7 +28,7 @@ const HEADERS = [
 ];
 
 const STATUS_OPTIONS = ["접수", "연락완료", "상담완료"];
-const PAYMENT_OPTIONS = ["미입금", "입금완료"];
+const PAYMENT_OPTIONS = ["미입금", "입금완료", "미진행"];
 
 // 최초 1회 실행: 헤더, 드롭다운, 조건부 서식, 필터 뷰 세팅
 function setupSheet() {
@@ -108,6 +108,14 @@ function setupSheet() {
       .whenTextEqualTo("입금완료")
       .setBackground("#d6efce")
       .setFontColor("#2c5e1a")
+      .setRanges([paymentRange])
+      .build()
+  );
+  rules.push(
+    SpreadsheetApp.newConditionalFormatRule()
+      .whenTextEqualTo("미진행")
+      .setBackground("#e4e2da")
+      .setFontColor("#6f7268")
       .setRanges([paymentRange])
       .build()
   );
@@ -193,6 +201,12 @@ function setupDashboard() {
       .whenTextEqualTo("입금완료")
       .setBackground("#d6efce")
       .setFontColor("#2c5e1a")
+      .setRanges([paymentRange])
+      .build(),
+    SpreadsheetApp.newConditionalFormatRule()
+      .whenTextEqualTo("미진행")
+      .setBackground("#e4e2da")
+      .setFontColor("#6f7268")
       .setRanges([paymentRange])
       .build(),
   ];
