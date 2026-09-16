@@ -83,6 +83,12 @@ h2 {
 }
 .btn-outline:hover { background: rgba(255,255,255,0.12); }
 
+.btn-naver {
+  background: #03c75a;
+  color: var(--white);
+}
+.btn-naver:hover { background: #02a94c; }
+
 /* ===== HEADER ===== */
 #header {
   position: sticky;
