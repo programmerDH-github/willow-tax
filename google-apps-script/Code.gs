@@ -52,10 +52,14 @@ function setupSheet() {
   sheet.setColumnWidths(1, HEADERS.length, 140);
   sheet.setColumnWidth(8, 260); // 문의내용 넓게
 
+  const phoneCol = HEADERS.indexOf("연락처") + 1;
   const statusCol = HEADERS.indexOf("상담상태") + 1;
   const paymentCol = HEADERS.indexOf("입금여부") + 1;
   const feeCol = HEADERS.indexOf("수수료") + 1;
   const maxRows = 500;
+
+  // 연락처가 숫자로 인식되어 맨 앞 0이 사라지는 것을 방지 (항상 텍스트로 표시)
+  sheet.getRange(2, phoneCol, maxRows, 1).setNumberFormat("@");
 
   sheet.setColumnWidth(feeCol, 110);
   sheet.getRange(2, feeCol, maxRows, 1).setNumberFormat("#,##0\"원\"");
