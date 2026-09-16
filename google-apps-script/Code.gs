@@ -255,7 +255,8 @@ function doPost(e) {
   const sheet = ss.getSheetByName(SHEET_NAME);
   const data = JSON.parse(e.postData.contents);
 
-  sheet.appendRow([
+  const row = sheet.getLastRow() + 1;
+  sheet.getRange(row, 1, 1, HEADERS.length).setValues([[
     new Date(),
     data.name || "",
     data.phone || "",
@@ -267,7 +268,11 @@ function doPost(e) {
     "접수",
     "미입금",
     "",
-  ]);
+  ]]);
+
+  // 연락처는 숫자로 오인식되지 않도록 텍스트로 강제 고정 후 다시 기록
+  const phoneCol = HEADERS.indexOf("연락처") + 1;
+  sheet.getRange(row, phoneCol).setNumberFormat("@").setValue(data.phone || "");
 
   return ContentService
     .createTextOutput(JSON.stringify({ result: "success" }))

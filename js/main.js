@@ -97,6 +97,44 @@ document.addEventListener("DOMContentLoaded", () => {
   const CONSULT_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbyzvPSnIGyEx6L9e7yePAFm817W3kc2yh_xRSduPCyn7eyH2dgAZvvTniCpsoqoWu0S/exec";
 
+  const cPhone = document.getElementById("cPhone");
+  if (cPhone) {
+    cPhone.addEventListener("input", () => {
+      const digits = cPhone.value.replace(/\D/g, "").slice(0, 11);
+      let formatted = digits;
+      if (digits.startsWith("02")) {
+        if (digits.length > 9) {
+          formatted = `${digits.slice(0, 2)}-${digits.slice(2, 6)}-${digits.slice(6, 10)}`;
+        } else if (digits.length > 5) {
+          formatted = `${digits.slice(0, 2)}-${digits.slice(2, digits.length - 4)}-${digits.slice(-4)}`;
+        } else if (digits.length > 2) {
+          formatted = `${digits.slice(0, 2)}-${digits.slice(2)}`;
+        }
+      } else if (digits.length > 10) {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7, 11)}`;
+      } else if (digits.length > 6) {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3, digits.length - 4)}-${digits.slice(-4)}`;
+      } else if (digits.length > 3) {
+        formatted = `${digits.slice(0, 3)}-${digits.slice(3)}`;
+      }
+      cPhone.value = formatted;
+    });
+  }
+
+  const cDate = document.getElementById("cDate");
+  if (cDate) {
+    cDate.addEventListener("input", () => {
+      const digits = cDate.value.replace(/\D/g, "").slice(0, 8);
+      let formatted = digits;
+      if (digits.length > 6) {
+        formatted = `${digits.slice(0, 4)}-${digits.slice(4, 6)}-${digits.slice(6, 8)}`;
+      } else if (digits.length > 4) {
+        formatted = `${digits.slice(0, 4)}-${digits.slice(4)}`;
+      }
+      cDate.value = formatted;
+    });
+  }
+
   const consultForm = document.getElementById("consultForm");
   if (consultForm) {
     consultForm.addEventListener("submit", (e) => {

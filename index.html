@@ -190,7 +190,7 @@
           </div>
           <div class="form-field">
             <label for="cPhone">연락처 <span class="req">(필수)</span></label>
-            <input type="tel" id="cPhone" name="phone" placeholder="010-0000-0000" required />
+            <input type="tel" id="cPhone" name="phone" placeholder="010-0000-0000" maxlength="13" required />
           </div>
           <div class="form-field">
             <label for="cTopic">가장 궁금한 내용 <span class="opt">(선택)</span></label>
@@ -225,7 +225,7 @@
           </div>
           <div class="form-field">
             <label for="cDate">상담 희망일 <span class="opt">(선택)</span></label>
-            <input type="date" id="cDate" name="date" />
+            <input type="text" inputmode="numeric" id="cDate" name="date" placeholder="예: 2026-09-08" maxlength="10" />
           </div>
         </div>
 
