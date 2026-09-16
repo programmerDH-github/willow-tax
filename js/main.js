@@ -94,6 +94,20 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  const consultForm = document.getElementById("consultForm");
+  if (consultForm) {
+    consultForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      // TODO: 구글 시트 연동 시 여기서 폼 데이터를 전송
+      const data = Object.fromEntries(new FormData(consultForm).entries());
+      console.log("상담 신청 데이터:", data);
+
+      document.getElementById("formSuccess").hidden = false;
+      consultForm.reset();
+    });
+  }
+
   const mapContainer = document.getElementById("kakaoMap");
   if (mapContainer && window.kakao && window.kakao.maps) {
     kakao.maps.load(() => {
