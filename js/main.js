@@ -94,17 +94,37 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
 
+  const CONSULT_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbyzvPSnIGyEx6L9e7yePAFm817W3kc2yh_xRSduPCyn7eyH2dgAZvvTniCpsoqoWu0S/exec";
+
   const consultForm = document.getElementById("consultForm");
   if (consultForm) {
     consultForm.addEventListener("submit", (e) => {
       e.preventDefault();
 
-      // TODO: 구글 시트 연동 시 여기서 폼 데이터를 전송
       const data = Object.fromEntries(new FormData(consultForm).entries());
-      console.log("상담 신청 데이터:", data);
+      const submitBtn = consultForm.querySelector(".btn-submit");
+      const originalLabel = submitBtn.textContent;
+      submitBtn.disabled = true;
+      submitBtn.textContent = "전송 중...";
 
-      document.getElementById("formSuccess").hidden = false;
-      consultForm.reset();
+      fetch(CONSULT_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(data),
+      })
+        .then(() => {
+          document.getElementById("formSuccess").hidden = false;
+          consultForm.reset();
+        })
+        .catch(() => {
+          alert("전송 중 문제가 발생했습니다. 잠시 후 다시 시도하거나 전화로 문의해 주세요.");
+        })
+        .finally(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = originalLabel;
+        });
     });
   }
 
