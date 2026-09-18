@@ -98,10 +98,12 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://script.google.com/macros/s/AKfycbyzvPSnIGyEx6L9e7yePAFm817W3kc2yh_xRSduPCyn7eyH2dgAZvvTniCpsoqoWu0S/exec";
 
   const heroStats = document.getElementById("heroStats");
+  const STATS_MIN_TOTAL = 10; // 누적 건수가 이 값 이상일 때만 위젯 노출
   if (heroStats) {
     fetch(CONSULT_ENDPOINT)
       .then((res) => res.json())
       .then((stats) => {
+        if (stats.total < STATS_MIN_TOTAL) return;
         document.getElementById("statMonth").textContent = `${stats.month}건`;
         document.getElementById("statTotal").textContent = `${stats.total}건`;
         heroStats.hidden = false;
