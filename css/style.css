@@ -254,6 +254,40 @@ h2 {
   flex-wrap: wrap;
 }
 
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 32px;
+  padding: 12px 24px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+  flex-wrap: wrap;
+}
+
+.hero-stat {
+  font-size: 13.5px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-stat strong {
+  color: var(--green-300);
+  font-size: 17px;
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
+}
+
 /* ===== ABOUT ===== */
 .about { background: var(--cream); }
 

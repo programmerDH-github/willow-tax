@@ -97,6 +97,18 @@ document.addEventListener("DOMContentLoaded", () => {
   const CONSULT_ENDPOINT =
     "https://script.google.com/macros/s/AKfycbyzvPSnIGyEx6L9e7yePAFm817W3kc2yh_xRSduPCyn7eyH2dgAZvvTniCpsoqoWu0S/exec";
 
+  const heroStats = document.getElementById("heroStats");
+  if (heroStats) {
+    fetch(CONSULT_ENDPOINT)
+      .then((res) => res.json())
+      .then((stats) => {
+        document.getElementById("statMonth").textContent = `${stats.month}건`;
+        document.getElementById("statTotal").textContent = `${stats.total}건`;
+        heroStats.hidden = false;
+      })
+      .catch(() => {});
+  }
+
   const cPhone = document.getElementById("cPhone");
   if (cPhone) {
     cPhone.addEventListener("input", () => {
