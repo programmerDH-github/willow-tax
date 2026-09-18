@@ -278,3 +278,26 @@ function doPost(e) {
     .createTextOutput(JSON.stringify({ result: "success" }))
     .setMimeType(ContentService.MimeType.JSON);
 }
+
+// 홈페이지 위젯에서 이 주소로 GET 요청을 보내면 상담 건수 통계를 반환 (개인정보 미포함)
+function doGet(e) {
+  const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const sheet = ss.getSheetByName(SHEET_NAME);
+  const rows = sheet.getDataRange().getValues().slice(1);
+
+  const now = new Date();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+
+  let total = 0;
+  let month = 0;
+  rows.forEach((row) => {
+    const receivedAt = row[0];
+    if (!(receivedAt instanceof Date)) return;
+    total++;
+    if (receivedAt >= monthStart) month++;
+  });
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ total, month }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
