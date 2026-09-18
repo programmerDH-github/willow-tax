@@ -383,6 +383,65 @@ h2 {
   margin: 0;
 }
 
+/* ===== TAX INFO ===== */
+.taxinfo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.taxinfo-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--gray-light);
+  border-radius: var(--radius);
+  padding: 28px 24px;
+  color: inherit;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+.taxinfo-card:hover {
+  box-shadow: var(--shadow);
+  transform: translateY(-4px);
+}
+
+.taxinfo-tag {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 5px 14px;
+  border-radius: 999px;
+  background: var(--green-700);
+  color: var(--white);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.taxinfo-card h3 {
+  font-size: 15.5px;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.taxinfo-card p {
+  color: var(--gray);
+  font-size: 13.5px;
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
+}
+
+.taxinfo-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 18px;
+  color: var(--green-700);
+  font-weight: 700;
+  font-size: 13.5px;
+}
+.taxinfo-more i { font-size: 11px; transition: transform 0.2s ease; }
+.taxinfo-card:hover .taxinfo-more i { transform: translateX(3px); }
+
 /* ===== TEAM ===== */
 .team { background: var(--cream); }
 
@@ -728,6 +787,7 @@ h2 {
   .hamburger { display: flex; }
   .about-grid { grid-template-columns: 1fr; }
   .services-grid { grid-template-columns: repeat(2, 1fr); }
+  .taxinfo-grid { grid-template-columns: repeat(2, 1fr); }
   .contact-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr 1fr; max-width: none; }
   .consult-grid { grid-template-columns: 1fr 1fr; }
@@ -736,6 +796,7 @@ h2 {
 @media (max-width: 520px) {
   .section-inner { padding: 64px 20px; }
   .services-grid { grid-template-columns: 1fr; }
+  .taxinfo-grid { grid-template-columns: 1fr; }
   .team-grid { grid-template-columns: 1fr; }
   .hero { padding: 120px 20px 80px; }
   .header-inner { gap: 12px; padding: 14px 16px; }
