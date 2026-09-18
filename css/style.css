@@ -254,6 +254,10 @@ h2 {
   flex-wrap: wrap;
 }
 
+.hero-stats[hidden] {
+  display: none;
+}
+
 .hero-stats {
   display: flex;
   align-items: center;
