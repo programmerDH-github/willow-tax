@@ -99,13 +99,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const heroStats = document.getElementById("heroStats");
   const STATS_MIN_TOTAL = 10; // 누적 건수가 이 값 이상일 때만 위젯 노출
+  const OFFLINE_CONSULT_BASELINE = 150; // 전화 등 웹폼 외 채널로 진행된 실제 누적 상담 건수
   if (heroStats) {
     fetch(CONSULT_ENDPOINT)
       .then((res) => res.json())
       .then((stats) => {
-        if (stats.total < STATS_MIN_TOTAL) return;
+        const total = stats.total + OFFLINE_CONSULT_BASELINE;
+        if (total < STATS_MIN_TOTAL) return;
         document.getElementById("statMonth").textContent = `${stats.month}건`;
-        document.getElementById("statTotal").textContent = `${stats.total}건`;
+        document.getElementById("statTotal").textContent = `${total}건`;
         heroStats.hidden = false;
       })
       .catch(() => {});
